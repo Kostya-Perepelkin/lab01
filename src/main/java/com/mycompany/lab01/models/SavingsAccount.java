@@ -17,11 +17,6 @@ import java.util.Date;
 public class SavingsAccount extends Account{
         
     private Date passBookDateUpdated;
-
-
-    public SavingsAccount(){
-        //initialization?
-    }
     
     public SavingsAccount(String customerName, int customerNumber, int accountNumber, BigDecimal balance, Date passBookDateUpdated){
         this.setCustomerName(customerName);
@@ -38,7 +33,8 @@ public class SavingsAccount extends Account{
     public void setPassBookDateUpdated(Date passBookDateUpdated) {
         this.passBookDateUpdated = passBookDateUpdated;
     }
-    
+
+    @Override
     public String toString(){
         
         String returnString = "Savings Account: \n";
