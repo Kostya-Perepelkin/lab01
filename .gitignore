@@ -1,0 +1,11 @@
+# remove maven output files
+target/
+*.class
+
+#IntelliJ stuff
+/.idea/
+*.iml
+id_file
+
+*.log.*
+*.log

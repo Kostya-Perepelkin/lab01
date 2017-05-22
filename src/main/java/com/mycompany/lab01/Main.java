@@ -25,11 +25,7 @@ import java.math.BigDecimal;
  */
 public class Main {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-        // TODO code application logic here
         
         System.out.println("Welcome to the lab 01!");
         System.out.println("This is simplified banking system");
@@ -132,10 +128,10 @@ public class Main {
         
         boolean endOfSection = false;
         
-        while (!endOfSection & scanner.hasNextLine()){
+        while (!endOfSection && scanner.hasNextLine()){
             accountType = scanner.next();
             
-            if (accountType.toUpperCase().equals("Chequing".toUpperCase())){
+            if (accountType.equalsIgnoreCase("Chequing")){
                 String name = "";
                 while (!scanner.hasNextInt()){
                     name += scanner.next();
@@ -232,12 +228,12 @@ public class Main {
                             break;
                         }
                         else if (operationType.toUpperCase().equals("Withdraw".toUpperCase())){
-                            if (acc.getBalance().doubleValue() >= amount.doubleValue() ){
+                            if (acc.getBalance().doubleValue() >= amount.doubleValue() ){ // FIXME move this withdraw logic to the corresponding classes
                                 acc.withdraw(amount);
                                 System.out.println(String.format("Successfully withdrawed $%s from account %s", amount, acc.getAccountNumber()));
                                 break;
                             }
-                            else if (acc instanceof OverdraftAccount){
+                            else if (acc instanceof OverdraftAccount){ // FIXME this instanceof will go away ones withdraw logic is moved to the corresponding classes
                                 OverdraftAccount currentOverdraftAccount = (OverdraftAccount) acc;
                                 BigDecimal maxAvailableAmount = currentOverdraftAccount.getBalance().add(currentOverdraftAccount.getOverdraftMaxAmount());
                                 

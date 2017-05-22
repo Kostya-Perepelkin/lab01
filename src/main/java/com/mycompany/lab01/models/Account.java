@@ -51,22 +51,20 @@ public abstract class Account {
     }
     
     public void deposit(BigDecimal depositedAmount){
-        //this.balance += depositedAmount;
-        this.balance.add(depositedAmount);
+        balance.add(depositedAmount);
     }
     
     public void withdraw(BigDecimal withdrawedAmount){
-        //this.balance -= withdrawedAmount;
-        this.balance.subtract(withdrawedAmount);
+        balance.subtract(withdrawedAmount);
     }
     
-    
+    @Override
     public String toString(){
         String returnString = "";
-        returnString += "Customer name: \t\t" + this.getCustomerName() + "\n";
-        returnString += "Customer number: \t" + this.getCustomerNumber() + "\n";
-        returnString += "Account number: \t" + this.getAccountNumber() + "\n";
-        returnString += "Balance: \t\t" + this.getBalance() + "\n";
+        returnString += "Customer name: \t\t" + getCustomerName() + "\n";
+        returnString += "Customer number: \t" + getCustomerNumber() + "\n";
+        returnString += "Account number: \t" + getAccountNumber() + "\n";
+        returnString += "Balance: \t\t" + getBalance() + "\n";
         return returnString;
     }
     

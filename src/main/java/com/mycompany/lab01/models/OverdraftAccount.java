@@ -14,11 +14,6 @@ import java.math.BigDecimal;
 public class OverdraftAccount extends Account{
     
     private BigDecimal overdraftMaxAmount;
-
-
-    public OverdraftAccount(){
-        //initialization?
-    }
     
     public OverdraftAccount(String customerName, int customerNumber, int accountNumber, BigDecimal balance, BigDecimal overdraftMaxAmount){
         this.setCustomerName(customerName);
@@ -35,7 +30,8 @@ public class OverdraftAccount extends Account{
     public void setOverdraftMaxAmount(BigDecimal overdraftMaxAmount) {
         this.overdraftMaxAmount = overdraftMaxAmount;
     }
-    
+
+    @Override
     public String toString(){
         String returnString = "Overdraft Account: \n";
         returnString += super.toString();
