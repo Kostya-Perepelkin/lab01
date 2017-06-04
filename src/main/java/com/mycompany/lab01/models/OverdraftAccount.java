@@ -39,4 +39,9 @@ public class OverdraftAccount extends Account{
         
         return returnString;
     }
+    
+    @Override
+    public String getAccountType(){
+        return "Overdraft";
+    }
 }

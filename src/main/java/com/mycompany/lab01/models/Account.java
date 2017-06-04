@@ -68,4 +68,6 @@ public abstract class Account {
         return returnString;
     }
     
+    public abstract String getAccountType();
+    
 }

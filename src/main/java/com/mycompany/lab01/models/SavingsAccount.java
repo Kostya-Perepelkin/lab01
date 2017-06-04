@@ -5,7 +5,7 @@
  */
 package com.mycompany.lab01.models;
 
-import static com.mycompany.lab01.models.constants.DateFormatConstants.MYDATEFORMAT;
+import static com.mycompany.lab01.constants.DateFormatConstants.MYDATEFORMAT;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -44,5 +44,10 @@ public class SavingsAccount extends Account{
         returnString += "Pass Book Date Updated: " + DATEFORMAT.format(this.getPassBookDateUpdated())+ "\n";
         
         return returnString;
+    }
+    
+    @Override
+    public String getAccountType(){
+        return "Savings";
     }
 }

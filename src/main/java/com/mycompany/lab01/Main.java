@@ -7,8 +7,9 @@ package com.mycompany.lab01;
 
 
 import com.mycompany.lab01.models.*;
-import static com.mycompany.lab01.models.constants.DateFormatConstants.MYDATEFORMAT;
-import static com.mycompany.lab01.models.constants.DateFormatConstants.MYDATEFORMATTOPARSE;
+import com.mycompany.lab01.controllers.*;
+import static com.mycompany.lab01.constants.DateFormatConstants.MYDATEFORMAT;
+import static com.mycompany.lab01.constants.DateFormatConstants.MYDATEFORMATTOPARSE;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -58,7 +59,7 @@ public class Main {
             "End";
         accountList = performOperations(operationsInput, accountList);
         
-        System.out.println("\nList of available accounts adter operations: ");
+        System.out.println("\nList of available accounts after operations: ");
         printAccounts(accountList);
         /*
         Boolean wantsToExit = false;
@@ -197,15 +198,15 @@ public class Main {
     }
     
     public static List <Account> performOperations(String operationsInput, List <Account> accountList){
-        
-        
+        String message = "";
         Scanner scanner = new Scanner(operationsInput);
-        
         String accountType = "";
         SimpleDateFormat DATEFORMAT = new SimpleDateFormat(MYDATEFORMATTOPARSE);
         
         boolean endOfSection = false;
         String operationType = "";
+        
+        OperationsController controller = new OperationsController(accountList);
         
         
         while (!endOfSection & scanner.hasNextLine()){
@@ -217,54 +218,9 @@ public class Main {
                 int accountNumber = scanner.nextInt();
                 //double amount = Double.parseDouble(scanner.next());
                 BigDecimal amount = BigDecimal.valueOf(Double.parseDouble(scanner.next()));
-
-                int counter =0;
-                for (Account acc: accountList){
-                    counter++;
-                    if (acc.getAccountNumber() == accountNumber){
-                        if (operationType.toUpperCase().equals("Deposit".toUpperCase())){
-                            acc.deposit(amount);
-                            System.out.println(String.format("Successfully deposited $%s to account %s", amount, acc.getAccountNumber()));
-                            break;
-                        }
-                        else if (operationType.toUpperCase().equals("Withdraw".toUpperCase())){
-                            if (acc.getBalance().doubleValue() >= amount.doubleValue() ){ // FIXME move this withdraw logic to the corresponding classes
-                                acc.withdraw(amount);
-                                System.out.println(String.format("Successfully withdrawed $%s from account %s", amount, acc.getAccountNumber()));
-                                break;
-                            }
-                            else if (acc instanceof OverdraftAccount){ // FIXME this instanceof will go away ones withdraw logic is moved to the corresponding classes
-                                OverdraftAccount currentOverdraftAccount = (OverdraftAccount) acc;
-                                BigDecimal maxAvailableAmount = currentOverdraftAccount.getBalance().add(currentOverdraftAccount.getOverdraftMaxAmount());
-                                
-                                //using overdraft
-                                if (maxAvailableAmount.doubleValue() >= amount.doubleValue()){
-                                    BigDecimal amountFromBalance = acc.getBalance();
-                                    BigDecimal amountFromOverDraft = ((OverdraftAccount) acc).getOverdraftMaxAmount();
-                                    
-                                    acc.setBalance(BigDecimal.valueOf(0.0));
-                                    ((OverdraftAccount) acc).setOverdraftMaxAmount(amountFromOverDraft.subtract(amount.subtract(amountFromBalance)));
-                                    System.out.println(String.format("Successfully withdrawed with OVERDRAFT! $%s from account %s", amount, acc.getAccountNumber()));
-                                    break;
-                                }
-                                else{
-                                    System.out.println(String.format("Sorry, there are not enough funds in the overdraft account %s. Requested amount %s, current balance is %s, availableOverdraft is", acc.getAccountNumber(), amount, acc.getBalance(), ((OverdraftAccount) acc).getOverdraftMaxAmount())); 
-                                }
-                            }
-                            else{
-                               System.out.println(String.format("Sorry, there are not enough funds in the account %s. Requested amount %s, current balance is %s", acc.getAccountNumber(), amount, acc.getBalance())); 
-                            }
-                        }
-                        else {
-                            System.out.println(String.format("ERROR-003: Unknown operation type- %s", operationType));
-                        }
-                    }
-                    else {
-                        if (counter == accountList.size()){
-                            System.out.println(String.format("ERROR-004: Acccount not found- %s", accountNumber));
-                        }
-                    }
-                }
+                
+                message = controller.performOperation(operationType, accountNumber, amount);
+                System.out.println(message);
             }
             else if(operationType.toUpperCase().equals("END")){
                 endOfSection = true; 

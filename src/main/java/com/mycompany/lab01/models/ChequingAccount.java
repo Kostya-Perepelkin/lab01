@@ -28,4 +28,10 @@ public class ChequingAccount extends Account{
         return returnString;
     }
     
+    @Override
+    public String getAccountType(){
+        return "Chequing";
+    }
+
+
 }
